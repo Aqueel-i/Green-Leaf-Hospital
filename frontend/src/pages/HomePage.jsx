@@ -11,12 +11,18 @@ const HomePage = () => {
         <p className="text-base sm:text-lg text-gray-600 mb-6">
           Use the navigation to explore doctors, patients, and other sections of the system.
         </p>
-        <div className="mt-6">
+        <div className="mt-6 flex flex-col sm:flex-row justify-center gap-4">
           <a
             href="/doctors"
             className="inline-block bg-teal-600 text-white py-3 px-6 rounded-full text-lg font-medium hover:bg-teal-700 transition-all duration-300"
           >
             View Doctors
+          </a>
+          <a
+            href="/patients"
+            className="inline-block bg-blue-600 text-white py-3 px-6 rounded-full text-lg font-medium hover:bg-blue-700 transition-all duration-300"
+          >
+            View Patients
           </a>
         </div>
       </div>

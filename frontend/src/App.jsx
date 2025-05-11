@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import DoctorPage from './pages/DoctorPage'; // Assuming you have this page
 import HomePage from './pages/HomePage';
+import DoctorPage from './pages/DoctorPage';
+import PatientPage from './pages/PatientPage';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
 
         {/* Route for doctors page */}
         <Route path="/doctors" element={<DoctorPage />} />
+        <Route path="/patients" element={<PatientPage />} />
       </Routes>
     </Router>
   );
