@@ -24,6 +24,12 @@ const HomePage = () => {
           >
             View Patients
           </a>
+          <a
+            href="/channeling"
+            className="inline-block bg-orange-600 text-white py-3 px-6 rounded-full text-lg font-medium hover:bg-orange-700 transition-all duration-300"
+          >
+            View Channeling
+          </a>
         </div>
       </div>
     </div>
