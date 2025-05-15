@@ -1,78 +1,95 @@
-// src/components/doctors/DoctorForm.jsx
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { FaSave } from "react-icons/fa";
 
 const DoctorForm = ({ onSubmit, initialData }) => {
-  const [form, setForm] = useState({
-    name: "",
-    specialization: "",
-    contact: "",
-    email: "",
-  });
+  const [name, setName] = useState("");
+  const [specialty, setSpecialty] = useState("");
+  const [email, setEmail] = useState("");
 
-  // Prefill form when editing
   useEffect(() => {
     if (initialData) {
-      setForm(initialData);
+      setName(initialData.name);
+      setSpecialty(initialData.specialty);
+      setEmail(initialData.email);
     } else {
-      setForm({ name: "", specialization: "", contact: "", email: "" });
+      setName("");
+      setSpecialty("");
+      setEmail("");
     }
   }, [initialData]);
 
-  // Update form state on input change
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  // Handle submit
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    await onSubmit(form); // Either add or update
-    setForm({ name: "", specialization: "", contact: "", email: "" }); // Reset form after submit
+    onSubmit({ name, specialty, email });
+    setName("");
+    setSpecialty("");
+    setEmail("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <input
-        type="text"
-        name="name"
-        value={form.name}
-        onChange={handleChange}
-        placeholder="Name"
-        className="w-full p-2 border rounded"
-        required
-      />
-      <input
-        type="text"
-        name="specialization"
-        value={form.specialization}
-        onChange={handleChange}
-        placeholder="Specialization"
-        className="w-full p-2 border rounded"
-        required
-      />
-      <input
-        type="text"
-        name="contact"
-        value={form.contact}
-        onChange={handleChange}
-        placeholder="Contact"
-        className="w-full p-2 border rounded"
-      />
-      <input
-        type="email"
-        name="email"
-        value={form.email}
-        onChange={handleChange}
-        placeholder="Email"
-        className="w-full p-2 border rounded"
-      />
-      <button
+    <motion.form
+      onSubmit={handleSubmit}
+      className="bg-white p-6 rounded-lg shadow-md space-y-5"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div>
+        <label htmlFor="name" className="block font-semibold text-gray-700 mb-1">
+          Name
+        </label>
+        <input
+          type="text"
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+          placeholder="Dr. John Doe"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="specialty" className="block font-semibold text-gray-700 mb-1">
+          Specialty
+        </label>
+        <input
+          type="text"
+          id="specialty"
+          value={specialty}
+          onChange={(e) => setSpecialty(e.target.value)}
+          required
+          className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+          placeholder="Cardiology"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="email" className="block font-semibold text-gray-700 mb-1">
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+          placeholder="doctor@example.com"
+        />
+      </div>
+
+      <motion.button
         type="submit"
-        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition flex items-center justify-center gap-2"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
+        <FaSave />
         {initialData ? "Update Doctor" : "Add Doctor"}
-      </button>
-    </form>
+      </motion.button>
+    </motion.form>
   );
 };
 

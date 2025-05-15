@@ -4,12 +4,12 @@ from flask_cors import CORS
 
 db = SQLAlchemy()
 
+
 def create_app():
     app = Flask(__name__)
 
     # Allow only the frontend origin (React dev server)
     CORS(app, origins=["http://localhost:5173"])
-
 
     # App configuration
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hospital.db'
@@ -26,5 +26,8 @@ def create_app():
 
     from app.routes.channeling_routes import channeling_bp
     app.register_blueprint(channeling_bp, url_prefix="/channelings")
+
+    from app.routes.appointment_routes import appointment_bp
+    app.register_blueprint(appointment_bp, url_prefix="/appointments")
 
     return app

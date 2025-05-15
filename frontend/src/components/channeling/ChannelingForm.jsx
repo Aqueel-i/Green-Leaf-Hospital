@@ -1,70 +1,102 @@
-// src/components/channeling/ChannelingForm.jsx
 import React, { useState } from "react";
 
 const ChannelingForm = ({ doctors, loadAppointments }) => {
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [patientName, setPatientName] = useState("");
   const [appointmentDate, setAppointmentDate] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Logic to handle form submission
+
+    // Simple validation
+    if (!selectedDoctor || !patientName.trim() || !appointmentDate) {
+      setError("Please fill in all fields.");
+      return;
+    }
+    setError("");
+
     const newAppointment = {
       doctor: selectedDoctor,
-      patient: patientName,
+      patient: patientName.trim(),
       date: appointmentDate,
     };
 
-    // You would typically send this data to the backend here to create a new appointment
+    // TODO: Send this to backend to save appointment
     console.log("Appointment created:", newAppointment);
 
-    // Reload the appointments
+    // Clear form
+    setSelectedDoctor("");
+    setPatientName("");
+    setAppointmentDate("");
+
+    // Reload appointments
     loadAppointments();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {error && (
+        <p className="text-red-600 font-semibold text-center">{error}</p>
+      )}
+
       <div className="flex flex-col">
-        <label htmlFor="doctor" className="text-lg font-semibold">Select Doctor</label>
+        <label htmlFor="doctor" className="text-lg font-semibold mb-1">
+          Select Doctor
+        </label>
         <select
           id="doctor"
           value={selectedDoctor}
           onChange={(e) => setSelectedDoctor(e.target.value)}
-          className="p-2 border rounded-lg"
+          className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
+          required
         >
-          <option value="">Select a Doctor</option>
+          <option value="" disabled>
+            Select a Doctor
+          </option>
           {doctors.map((doctor) => (
-            <option key={doctor.id} value={doctor.name}>{doctor.name}</option>
+            <option key={doctor.id} value={doctor.name}>
+              {doctor.name}
+            </option>
           ))}
         </select>
       </div>
 
       <div className="flex flex-col">
-        <label htmlFor="patientName" className="text-lg font-semibold">Patient Name</label>
+        <label htmlFor="patientName" className="text-lg font-semibold mb-1">
+          Patient Name
+        </label>
         <input
           type="text"
           id="patientName"
           value={patientName}
           onChange={(e) => setPatientName(e.target.value)}
-          className="p-2 border rounded-lg"
+          placeholder="Enter patient name"
+          className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
+          required
         />
       </div>
 
       <div className="flex flex-col">
-        <label htmlFor="appointmentDate" className="text-lg font-semibold">Appointment Date</label>
+        <label
+          htmlFor="appointmentDate"
+          className="text-lg font-semibold mb-1"
+        >
+          Appointment Date
+        </label>
         <input
           type="date"
           id="appointmentDate"
           value={appointmentDate}
           onChange={(e) => setAppointmentDate(e.target.value)}
-          className="p-2 border rounded-lg"
+          className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
+          required
         />
       </div>
 
       <button
         type="submit"
-        className="mt-4 bg-teal-600 text-white py-2 px-6 rounded-full hover:bg-teal-700 transition duration-300"
+        className="w-full mt-4 bg-teal-600 text-white font-semibold py-3 rounded-full hover:bg-teal-700 transition duration-300 shadow-md"
       >
         Book Appointment
       </button>

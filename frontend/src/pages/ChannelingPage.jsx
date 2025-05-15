@@ -1,8 +1,7 @@
-// src/pages/ChannelingPage.jsx
 import React, { useState, useEffect } from "react";
-import { getDoctors } from "../services/doctorService";  // Assume you have a service for fetching doctors
-import ChannelingForm from "../components/channeling/ChannelingForm";  // Placeholder for your channeling form component
-import ChannelingList from "../components/channeling/ChannelingList";  // Placeholder for the channeling list component
+import { getDoctors } from "../services/doctorService";
+import ChannelingForm from "../components/channeling/ChannelingForm";
+import ChannelingList from "../components/channeling/ChannelingList";
 
 const ChannelingPage = () => {
   const [doctors, setDoctors] = useState([]);
@@ -15,7 +14,7 @@ const ChannelingPage = () => {
 
   const loadDoctors = async () => {
     try {
-      const data = await getDoctors();  // Fetch doctors using the service
+      const data = await getDoctors();
       setDoctors(data);
     } catch (err) {
       console.error("Error loading doctors:", err);
@@ -23,9 +22,6 @@ const ChannelingPage = () => {
   };
 
   const loadAppointments = async () => {
-    // Assuming you have an API or service to get appointments (channeling)
-    // This should ideally come from the backend.
-    // For now, it's just a placeholder.
     setAppointments([
       { id: 1, doctor: "Dr. John", patient: "Alice", date: "2025-05-15" },
       { id: 2, doctor: "Dr. Smith", patient: "Bob", date: "2025-05-16" },
@@ -33,17 +29,32 @@ const ChannelingPage = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-6">
-      <h2 className="text-2xl font-bold">Channeling Appointments</h2>
-      
-      {/* Channeling Form Component */}
-      <ChannelingForm doctors={doctors} loadAppointments={loadAppointments} />
+    <div className="max-w-6xl mx-auto px-6 py-8 space-y-10 bg-gray-50 rounded-lg shadow-md">
+      <header className="mb-6">
+        <h2 className="text-3xl font-extrabold text-gray-900">
+          Channeling Appointments
+        </h2>
+        <p className="mt-1 text-gray-600 max-w-xl">
+          Schedule and manage your channeling appointments with ease.
+        </p>
+      </header>
 
-      <hr />
+      {/* Channeling Form Component */}
+      <section className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <ChannelingForm doctors={doctors} loadAppointments={loadAppointments} />
+      </section>
+
+      <hr className="border-gray-300" />
 
       {/* List of existing appointments */}
-      <h3 className="text-xl font-semibold">Appointments</h3>
-      <ChannelingList appointments={appointments} />
+      <section>
+        <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+          Upcoming Appointments
+        </h3>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <ChannelingList appointments={appointments} />
+        </div>
+      </section>
     </div>
   );
 };
